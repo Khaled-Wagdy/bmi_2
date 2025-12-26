@@ -1,8 +1,20 @@
+import 'package:bmi_2/widgets/gender_container.dart';
+import 'package:bmi_2/widgets/info_container.dart';
 import 'package:flutter/material.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+ 
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
 
+class _HomeScreenState extends State<HomeScreen> {
+   bool isMale =false;
+  bool isFemale =false;
+  int height =50;
+  int wight =30;
+  int age =20;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,48 +31,30 @@ class HomeScreen extends StatelessWidget {
             // gender now
             Row(
               children: [
-                
-                 Expanded(
-                   child: Container(
-                      height: 180, 
-                      width: 155,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        color: Color(0XFF24263B),
-                               
-                   
-                      ),
-                      child: Column(
-                        children: [
-                          Icon(Icons.male,color: Color(0xffFFFFFF),size: 144,),
-                          Text("Male",style: TextStyle(color: Colors.white,fontWeight: FontWeight.w400,fontSize: 20),),
-                        ],
-                   
-                      ),
-                      
-                      
-                    ),
-                 ),
+                GenderContainer(
+                  title: "Male",
+                  icons: Icons.male,
+                  color: isMale?Colors.red:Color(0XFF24263B) ,
+                  onTap: () {
+                    setState(() {
+                      isMale=true;
+                      isFemale =false;
+                    });
+                  },
+                ),
+                 
                  SizedBox(width: 9,),
-                 Expanded(
-                   child: Container(
-                      height: 180, 
-                      width: 155,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        color: Color(0XFF24263B),
-                               
-                   
-                      ),
-                      child: Column(
-                        children: [
-                          Icon(Icons.female,color: Color(0xffFFFFFF),size: 144,),
-                          Text("Female",style: TextStyle(color: Colors.white,fontWeight: FontWeight.w400,fontSize: 20),),
-                        ],
-                   
-                      ),
-                   ),
-                 ),
+                GenderContainer(
+                  title: "Female",
+                  icons: Icons.female,
+                  color:isFemale?Colors.red:Color(0XFF24263B) ,
+                  onTap: () {
+                    setState(() {
+                      isFemale=true;
+                      isMale=false;
+                    });
+                  },
+                ),
               ],
           
             ),
@@ -80,7 +74,7 @@ class HomeScreen extends StatelessWidget {
                   Text.rich(TextSpan( 
                     children: [
                       TextSpan(
-                        text: "150",
+                        text: height.toString(),
                         style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 40),
                       
                       ),
@@ -100,7 +94,10 @@ class HomeScreen extends StatelessWidget {
                     max: 300,
                     min: 0,
                     activeColor: Colors.red,
-                    value: 100, onChanged:(value){
+                    value: height.toDouble(), onChanged:(value){
+                      setState(() {
+                        height =value.toInt();
+                      });
                     
 
                   } ,),
@@ -114,105 +111,41 @@ class HomeScreen extends StatelessWidget {
               
               children: [
 
-                Expanded(
-                  child: Container(
-                   padding: EdgeInsets.only(top: 15,bottom: 21),
-                    width: 155,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      color: Color(0xff24263B),
+                InfoContainer(title: "Weight", number: wight , 
+                increaseOntap: (){
+                  setState(() {
+                    wight++;
+                  });
+                }, 
+                decreaseOntap: (){
                   
-                    ),
-                    child: Column(
-                      children: [
-                        
-                       Text("Weight",style: TextStyle(color: Colors.white,fontSize: 20,fontWeight: FontWeight.w300),),
-                       SizedBox(height: 5,),
-                        Text("60",style: TextStyle(color: Colors.white,fontSize: 40,fontWeight: FontWeight.w400),),
-                        SizedBox(height: 21,),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            FloatingActionButton.small(onPressed: (){},
-                            backgroundColor: Color(0xff8B8C9E),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(100),
-                            
-                              
-                            ),
-                            child: Icon(Icons.remove,color: Colors.white,),
+                    if (wight>30){
                   
-                            
-                            ),
-                            
-                             FloatingActionButton.small(onPressed: (){},
-                            backgroundColor: Color(0xff8B8C9E),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(100),
-                            
-                              
-                            ),
-                            child: Icon(Icons.add,color: Colors.white,),
-                  
-                            
-                            )
-                          ],
-                        )
-                      ],
-                    ),
-                  
-                  ),
-                ),
+                  setState(() {
+                    wight--;
+                  });
+                    }
+                },),
+                
+            
                 SizedBox(width: 9,),
-                Expanded(
-                  child: Container(
-                   padding: EdgeInsets.only(top: 15,bottom: 21),
-                    width: 155,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      color: Color(0xff24263B),
+                InfoContainer(title: "age", number: age,
+                
+                increaseOntap: () {
+                  setState(() {
+                    age++;
+                  });
                   
-                    ),
-                    child: Column(
-                      children: [
-                        
-                       Text("age",style: TextStyle(color: Colors.white,fontSize: 20,fontWeight: FontWeight.w300),),
-                       SizedBox(height: 5,),
-                        Text("26",style: TextStyle(color: Colors.white,fontSize: 40,fontWeight: FontWeight.w400),),
-                        SizedBox(height: 21,),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            FloatingActionButton.small(onPressed: (){},
-                            backgroundColor: Color(0xff8B8C9E),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(100),
-                            
-                              
-                            ),
-                            child: Icon(Icons.remove,color: Colors.white,),
-                  
-                            
-                            ),
-                            
-                             FloatingActionButton.small(onPressed: (){},
-                            backgroundColor: Color(0xff8B8C9E),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(100),
-                            
-                              
-                            ),
-                            child: Icon(Icons.add,color: Colors.white,),
-                  
-                            
-                            )
-                          ],
-                        )
-                      ],
-                    ),
-                  
-                  ),
-                )
+                },
+                decreaseOntap: () {
+                  if(age>20){
+                  setState(() {
+                    age--;
+                  });}
+                },
+                ),
+                
+              
               ],
            
            
